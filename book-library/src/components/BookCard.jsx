@@ -1,6 +1,7 @@
 // src/components/BookCard.jsx
-export default function BookCard({ book, onToggleFavourite, isFavourite }) {
-  const { volumeInfo } = book;
+export default function BookCard({ book, onToggleFavourite, isFavourite = false }) {
+  // Safely extract data
+  const volumeInfo = book?.volumeInfo || {};
   const title = volumeInfo.title || 'Untitled';
   const authors = volumeInfo.authors?.join(', ') || 'Unknown Author';
   const thumbnail = volumeInfo.imageLinks?.thumbnail
@@ -11,13 +12,12 @@ export default function BookCard({ book, onToggleFavourite, isFavourite }) {
     e.target.src = 'https://via.placeholder.com/128x192?text=No+Cover';
   };
 
-  <BookCard
-  key={book.id}
-  book={book}
-  onToggleFavourite={handleToggleFavourite}
-  isFavourite={favourites.some(fav => fav.id === book.id)}
-/>
-
+  const handleToggleClick = (e) => {
+    e.stopPropagation();
+    if (onToggleFavourite) {
+      onToggleFavourite(book);
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition">
@@ -35,10 +35,7 @@ export default function BookCard({ book, onToggleFavourite, isFavourite }) {
             View details
           </button>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleFavourite?.(book);
-            }}
+            onClick={handleToggleClick}
             className="text-xl"
             aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
           >
