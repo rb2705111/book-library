@@ -2,8 +2,7 @@
 
 A responsive web application that lets users search for books using the Google Books API, view book details, save favourites, and revisit recent searches — all in a clean, modern interface built with React and Tailwind CSS.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Netlify-00C7B7?logo=netlify)](https://your-book-library.netlify.app)
-
+https://boisterous-cuchufli-6734f0.netlify.app/
 
 ## ✨ Features
 
