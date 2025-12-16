@@ -23,9 +23,3 @@ A responsive web application that lets users search for books using the Google B
 - **State Management**: React Hooks (`useState`, `useEffect`)
 - **Persistence**: `localStorage` (for favourites and recent searches)
 
-## 🚀 How to Run Locally
-
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/rb2705111/book-library.git
-   cd book-library/book-library  # Navigate into the React app folder
