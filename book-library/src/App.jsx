@@ -1,35 +1,39 @@
 // src/App.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar';
 import BookCard from './components/BookCard';
 
-import { useState, useEffect } from 'react';
-const [favourites, setFavourites] = useState(() => {
-  const saved = localStorage.getItem('book-favourites');
-  return saved ? JSON.parse(saved) : [];
-});
-
-useEffect(() => {
-  localStorage.setItem('book-favourites', JSON.stringify(favourites));
-}, [favourites]);
-
-const handleToggleFavourite = (book) => {
-  setFavourites(prev => {
-    const isFav = prev.some(fav => fav.id === book.id);
-    if (isFav) {
-      return prev.filter(fav => fav.id !== book.id);
-    } else {
-      return [...prev, book];
-    }
-  });
-};
-
 export default function App() {
+  // 🔹 Main search state
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // 🔹 Favourites state (jinside App!)
+  const [favourites, setFavourites] = useState(() => {
+    const saved = localStorage.getItem('book-favourites');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // 🔹 Sync favourites to localStorage
+  useEffect(() => {
+    localStorage.setItem('book-favourites', JSON.stringify(favourites));
+  }, [favourites]);
+
+  // 🔹 Toggle favourite
+  const handleToggleFavourite = (book) => {
+    setFavourites(prev => {
+      const isFav = prev.some(fav => fav.id === book.id);
+      if (isFav) {
+        return prev.filter(fav => fav.id !== book.id);
+      } else {
+        return [...prev, book];
+      }
+    });
+  };
+
+  // 🔹 Search handler
   const handleSearch = async (query) => {
     if (!query.trim()) return;
 
@@ -108,7 +112,12 @@ export default function App() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {books.map((book) => (
-                <BookCard key={book.id} book={book} />
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onToggleFavourite={handleToggleFavourite}
+                  isFavourite={favourites.some(fav => fav.id === book.id)}
+                />
               ))}
             </div>
           </>
