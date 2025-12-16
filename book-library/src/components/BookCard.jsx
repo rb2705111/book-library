@@ -11,6 +11,14 @@ export default function BookCard({ book, onToggleFavourite, isFavourite }) {
     e.target.src = 'https://via.placeholder.com/128x192?text=No+Cover';
   };
 
+  <BookCard
+  key={book.id}
+  book={book}
+  onToggleFavourite={handleToggleFavourite}
+  isFavourite={favourites.some(fav => fav.id === book.id)}
+/>
+
+
   return (
     <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition">
       <img

@@ -3,6 +3,27 @@ import { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import BookCard from './components/BookCard';
 
+import { useState, useEffect } from 'react';
+const [favourites, setFavourites] = useState(() => {
+  const saved = localStorage.getItem('book-favourites');
+  return saved ? JSON.parse(saved) : [];
+});
+
+useEffect(() => {
+  localStorage.setItem('book-favourites', JSON.stringify(favourites));
+}, [favourites]);
+
+const handleToggleFavourite = (book) => {
+  setFavourites(prev => {
+    const isFav = prev.some(fav => fav.id === book.id);
+    if (isFav) {
+      return prev.filter(fav => fav.id !== book.id);
+    } else {
+      return [...prev, book];
+    }
+  });
+};
+
 export default function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
